@@ -4,5 +4,5 @@ from werkzeug.utils import secure_filename
 
 class UploadForm(FlaskForm):
     upload = FileField('image',
-    validators=[FileRequired(),FileAllowed(['jpg', 'png'], 'Images only!')])
+    validators=[FileRequired(),FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     

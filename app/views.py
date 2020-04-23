@@ -36,18 +36,19 @@ def upload():
         # Instantiate your form class
         # form = UploadForm()
         # Validate file upload on submit
-        if request.method == 'POST' and form.validate_on_submit():
-            # Get file data and save to your uploads folder
-            file = form.upload.data 
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
-            flash('File Saved', 'success')
+    if request.method == 'POST' and form.validate_on_submit():
+        print("hello")
+        # Get file data and save to your uploads folder
+        file = form.upload.data 
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        flash('File Saved', 'success')
         return redirect(url_for('home'))
 
-        print("test")
+    print("a diff one")
+    flash_errors(form)
     return render_template('upload.html',form=form)
-
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
