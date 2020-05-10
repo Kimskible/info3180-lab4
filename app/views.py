@@ -50,6 +50,9 @@ def upload():
     flash_errors(form)
     return render_template('upload.html',form=form)
 
+
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     error = None
