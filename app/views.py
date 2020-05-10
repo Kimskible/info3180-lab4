@@ -29,7 +29,6 @@ def about():
 
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
-
     form = UploadForm()
     if not session.get('logged_in'):
         abort(401)
@@ -37,7 +36,6 @@ def upload():
         # form = UploadForm()
         # Validate file upload on submit
     if request.method == 'POST' and form.validate_on_submit():
-        print("hello")
         # Get file data and save to your uploads folder
         file = form.upload.data 
         filename = secure_filename(file.filename)
@@ -46,9 +44,24 @@ def upload():
         flash('File Saved', 'success')
         return redirect(url_for('home'))
 
-    print("a diff one")
     flash_errors(form)
     return render_template('upload.html',form=form)
+
+
+def get_uploaded_images():
+    lst = [] 
+    for subdir, dirs, files in os.walk(app.config['UPLOAD_FOLDER']):
+        for file_ in files: 
+            if file_.split('.')[-1] in ('jpg', 'png'):
+                lst.append(file_)
+    return lst
+
+@app.route("/files")
+def files(): 
+    if not session.get('logged_in'):
+        abort(401)
+    uploadedImages = get_uploaded_images()
+    return render_template("files.html", uploadedImages=uploadedImages)
 
 
 
@@ -77,7 +90,6 @@ def logout():
 ###
 # The functions below should be applicable to all Flask apps.
 ###
-
 # Flash errors from the form if validation fails
 def flash_errors(form):
     for field, errors in form.errors.items():
